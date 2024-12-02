@@ -6,29 +6,29 @@ import (
 )
 
 func main() {
-	// Rileva il sistema operativo
 	os := runtime.GOOS
 	fmt.Printf("Rilevato sistema operativo: %s\n", os)
 
-	// Percorsi specifici per ogni sistema operativo
-	switch os {
-	case "windows":
-		runWindowsPath()
-	case "linux":
-		runLinuxPath()
-	default:
+	// Mappa per associare i sistemi operativi alle funzioni (print da eliminare)
+	osFunctions := map[string]func(){
+		"windows": runWindowsPath,
+		"linux":   runLinuxPath,
+	}
+
+	// Esegui la funzione corrispondente al sistema operativo (print da eliminare)
+	if fn, exists := osFunctions[os]; exists {
+		fn()
+	} else {
 		fmt.Println("Sistema operativo non supportato!")
 	}
 }
 
-// Funzione per il percorso Windows
 func runWindowsPath() {
 	fmt.Println("Eseguendo il percorso per Windows...")
-	// Logica specifica per Windows
+	// Logica specifica per Windows (print da eliminare)
 }
 
-// Funzione per il percorso Linux
 func runLinuxPath() {
 	fmt.Println("Eseguendo il percorso per Linux...")
-	// Logica specifica per Linux
+	// Logica specifica per Linux (print da eliminare)
 }
