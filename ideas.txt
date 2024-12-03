@@ -1,8 +1,0 @@
-*** QUI SEGNAMO TUTTE LE IDEE CHE CI VENGONO PER IL RANSOMWARE ***
-
-- Scritto in GO
-- Il ransomware viene mascherato come installer
-- Vengono cifrati tutti i file documento/immagine/etc individuati nel file system
-- DECIDERE SE CIFRARE ALCUNI EXE
-- Viene eseguito all'avvio del sistema operativo
-- Genera un txt che spiega cos'è successo
