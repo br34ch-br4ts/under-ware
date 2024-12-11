@@ -1,45 +1,41 @@
-# Ransomware Project - AES-256 Encryption
+# Ransomware Project
 
 ## 📜 Overview
-This project is a ransomware written in **Go** (Golang), designed to encrypt files using **AES-256 encryption**. It demonstrates how to create a program with functionalities such as file encryption, desktop modification, and ransom note generation.
+This project is a ransomware written in **Go** (Golang), designed to encrypt files using **AES-256 encryption**
+
 
 ### ⚠️ Disclaimer
-This project is intended for **educational purposes only** to help understand the mechanisms of ransomware and enhance cybersecurity measures. Misuse of this code for malicious purposes is illegal and unethical. Use responsibly.
+This project is intended for **educational purposes only** to help understand the mechanisms of ransomwares. Misuse of this code for malicious purposes is illegal and unethical. Use responsibly.
+
 
 ## 🚀 Features
 1. **File Encryption with AES-256**
-   - Encrypts all files in target directories using the Advanced Encryption Standard (AES) with a 256-bit key.
-   - Efficient recursive encryption ensures maximum impact.
+   - Encrypts all files in target directories using the Advanced Encryption Standard with a 256-bit key.
 
 2. **Desktop Background Change**
-   - Automatically changes the victim's desktop wallpaper to a custom image with instructions or warnings.
+   - Automatically changes the victim's desktop wallpaper to a custom image.
 
 3. **Ransom Note Generation**
    - Creates a text file with details on:
      - Instructions to download and install Tor Browser.
      - Navigating to a specific .onion site for payment and decryption software.
 
-4. **Tor Integration**
-   - Provides the victim with essential information to access the darknet for further instructions.
 
 ## 🔧 Technical Details
-
 ### File Encryption
-- **Algorithm:** AES-256 in GCM mode (ensures data integrity and confidentiality).
+- **Algorithm:** AES-256 in GCM mode
 - **Key Handling:** A unique key is generated for each instance, stored securely for decryption upon payment.
 - **Targets:** Recursively scans and encrypts files in user-defined directories (e.g., `/home/user` on Linux or `C:\Users` on Windows).
-- **Exclusions:** Skips critical system files to avoid rendering the machine unbootable.
+- **Exclusions:** Skips not important folders and critical system files to avoid rendering the machine unbootable.
 
 ### Desktop Background Change
 - Replaces the victim's current wallpaper with a custom image provided in the payload.
-- Supports common image formats such as `.jpg`, `.png`, and `.bmp`.
 
 ### Ransom Note
-- Automatically generates a file named `READ_ME.txt` or equivalent in prominent directories (e.g., Desktop, Documents).
+- Automatically generates a file named `READ_ME.txt` or equivalent in Desktop
 - Includes:
   - Steps to download Tor Browser.
-  - The onion URL for the ransom page.
-  - Instructions for payment and decryption.
+  - The onion URL for the ransom page (with instructions for payment and decryption)
 
 ### Written in Go
 - **Why Go?**
@@ -47,41 +43,37 @@ This project is intended for **educational purposes only** to help understand th
   - Strong support for concurrency and networking.
   - Lightweight binaries for easier distribution.
 
-## 📂 Directory Structure
-```
-├── main.go              # Main program logic
-├── encrypt.go           # Encryption functionality
-├── wallpaper.go         # Wallpaper modification logic
-├── ransom_note.go       # Ransom note generation
-├── assets/
-│   ├── wallpaper.png   # Custom wallpaper image
-│   └── note_template.txt  # Template for ransom note
-├── README.md            # Project documentation
-```
 
 ## 🛠️ Installation & Usage
-
 ### Prerequisites
 - **Go (Golang):** Install the Go compiler from [golang.org](https://golang.org).
 - **Dependencies:**
-  - No external dependencies; standard Go libraries are used.
+  - Standard Go libraries.
+  - To change background (multi-platform): https://github.com/reujab/wallpaper (```go get -u github.com/reujab/wallpaper```)
+- **External Tools:**
+ - To change the software icon in Windows: https://github.com/tc-hib/go-winres (```go install github.com/tc-hib/go-winres@latest```)
+   ```bash 
+   go-winres simply --icon icon.png
+   go build
+   ```
 
 ### Build Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/ransomware-project.git
+   git clone https://github.com/CyberCactus64/under-ware.git
    cd ransomware-project
    ```
-
-2. Build the binary:
+2. Build the encryptor:
    ```bash
-   go build -o ransomware
+   cd underware
+   go build -o encryptor
+   ```
+2. Build the decryptor:
+   ```bash
+   cd underware-savior
+   go build -o decryptor
    ```
 
-3. Run the program:
-   ```bash
-   ./ransomware
-   ```
 
 ## 🛡️ Legal and Ethical Use
 This project must only be used for **research** and **cybersecurity training**. Unauthorized deployment of this program is strictly prohibited and punishable under applicable laws.
@@ -90,9 +82,9 @@ This project must only be used for **research** and **cybersecurity training**. 
 
 ### 📫 Contact
 For questions or collaborations, please reach out to:
-- Email: your_email@example.com
-- GitHub: [your_username](https://github.com/your_username)
+- Email: edoardo.enricomaria.fornasier@gmail.com
+- GitHub: [your_username](https://github.com/CyberCactus64)
 
 ---
 
-**Stay ethical and use this knowledge responsibly!**
+**Stay ethical and use this code responsibly!**
