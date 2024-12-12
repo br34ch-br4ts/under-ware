@@ -33,8 +33,6 @@ Failure to pay up and every trace of your data will be locked away forever. Comp
 Consider this your only warning.
 Pay up or suffer the consequences.
 
-Time's ticking... Come on! Don't waste it sitting there reading this.
-
 One more thing, you overprivileged shithead: I'm not bluffing.
 You wouldn't want to find out the hard way, right?
 The choice is yours.
