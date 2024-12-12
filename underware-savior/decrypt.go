@@ -3,7 +3,6 @@ package main
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"fmt"
 	"io/fs"
 	"os"
 	"os/user"
@@ -55,10 +54,10 @@ func decrypt_file(file_path string) {
 	}
 
 	// Check if the file has enough data for the nonce and ciphertext
-	if len(file_contents) < gcm.NonceSize() {
+	/*if len(file_contents) < gcm.NonceSize() {
 		fmt.Println("File is too small to contain a valid nonce:", file_path)
 		return
-	}
+	}*/
 
 	// decrypt the file contents
 	nonce := file_contents[:gcm.NonceSize()]
@@ -100,7 +99,12 @@ func explore_directory(parent_dir string) {
 			// other directories
 			// fmt.Println("Exploring directory:", file_path)
 		} else { // it's a file
-			decrypt_file(file_path)
+			if strings.HasSuffix(file_path, ".ini") { // if .ini don't do anything
+				return nil
+			}
+			if strings.HasSuffix(file_path, ".d1ck") {
+				decrypt_file(file_path)
+			}
 		}
 		return nil
 	})
