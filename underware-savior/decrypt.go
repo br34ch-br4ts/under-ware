@@ -92,7 +92,7 @@ func explore_directory(parent_dir string) {
 				// fmt.Println("Skipping directory:", file_path)
 				return filepath.SkipDir
 			}
-			if strings.HasPrefix(element.Name(), "AppData") { // skip AppData folder
+			if strings.HasPrefix(element.Name(), "AppData") { // skip AppData folder (for windows)
 				// fmt.Println("Skipping directory:", file_path)
 				return filepath.SkipDir
 			}
